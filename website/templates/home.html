@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Home{% endblock title %}
+<body></body>
+    {% block content %}
+    <div class="container">
+        <h1>Menu</h1>
+
+          {% for message in get_flashed_messages() %}
+          <div class="alert alert-warning">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              {{ message }}
+           </div>
+          {% endfor %}
+
+          <table class="table table-sm">
+             <thead class="thead-dark">
+                <tr>
+                   <th scope="col">Item</th>
+                   <th scope="col">Price</th>
+                   <th scope="col">Quantity</th>
+                </tr>
+             </thead>
+
+             <tbody>
+                {% for product in products %}
+                   <tr>
+                      <td>{{ product.product_name }}</td>
+                      <td>{{ product.product_price }}</td>
+                      {% if product.product_qty == 0 %}
+                      <td><button class="btn btn-secondary btn-lg disabled">Sold Out</button></td>
+                      {% else%}
+                      <td>
+                         <form method="post" action="/addToCart">
+                            <div class="input-group mb-3">
+                               <input type="hidden" name="productid" value="{{ product.id }}"/>
+                               <input type="hidden" name="productname" value="{{ product.product_name }}"/>
+                               <input type="hidden" name="productprice" value="{{ product.product_price }}"/>
+                               <input type="text" class="product-quantity" name="quantity" value="0" size="2" />
+                               <input type="submit" value="Add to Cart" class="btnAddAction" />
+                            </div>
+                         </form>
+
+                      </td>
+                   </tr>
+                {% endif %}
+                {% endfor %}
+             </tbody>
+          </table>
+          <button type="button" class="btn btn-outline-primary" onclick="window.location.href=('mycart')">
+             Go To MyCart
+             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="font-size: 1.5em">
+                <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+             </svg>
+          </button>
+
+    </div>
+    {% endblock content%}
+</body>
+
+
+
+
+
